@@ -36,18 +36,14 @@ def valid_cheat_folder_name(cheat_name):
 
     return cheat_name
 
-n = len(sys.argv)
+title_dir = os.listdir('/home/pavel/.var/app/org.yuzu_emu.yuzu/data/yuzu/load/')
 
-if n > 2:
-    print("The script only supports one game title at a time")
-else:
-    title_id = str(sys.argv[1])
+def add_cheats(titled):
 
-    mod_config = pd.read_csv("modlocation.csv",sep=";")
-    mod_location = mod_config.iloc[0]['value']
+    mod_location = '/home/pavel/.var/app/org.yuzu_emu.yuzu/data/yuzu/load/'
 
-    cheats_df = pd.read_csv("cheats.csv",sep=";")
-    cheats = cheats_df.loc[cheats_df['TITLE ID'] == title_id]
+    cheats_df = pd.read_csv("/home/pavel/project/python/yuzu_cheats/yuzu-cheats/cheats.csv",sep=";")
+    cheats = cheats_df.loc[cheats_df['TITLE ID'] == titled]
     no_of_records = len(cheats)
     game_exisits = False
 
@@ -57,11 +53,9 @@ else:
     if game_exisits:
         print("Adding Cheats")
         os.chdir(mod_location)
-        title_path = title_id
+        title_path = titled
         title_folder_is_existing = os.path.isdir(title_path) 
-        if not title_folder_is_existing:
-            os.mkdir(title_id)
-        os.chdir(title_id)
+        os.chdir(titled)
         for i, row in cheats.iterrows():
             cheat_name = row['CHEAT']
             cheat_name = valid_cheat_folder_name(cheat_name)
@@ -83,3 +77,5 @@ else:
             
     else:
         print("No Game Found with this TITLE ID in the Database")
+for td in title_dir:
+    add_cheats(td)
