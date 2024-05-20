@@ -80,7 +80,7 @@ def add_cheats(titled):
 def main():
     import shutil
 
-    if len(argv) > 1:
+    if len(argv) > 1 and argv[1] == 'cls':
         for td in os.listdir('/home/pavel/.var/app/org.yuzu_emu.yuzu/data/yuzu/load/'):
             for clear_dir in os.listdir('/home/pavel/.var/app/org.yuzu_emu.yuzu/data/yuzu/load/'+td):
                 shutil.rmtree('/home/pavel/.var/app/org.yuzu_emu.yuzu/data/yuzu/load/'+td+'/'+clear_dir)
