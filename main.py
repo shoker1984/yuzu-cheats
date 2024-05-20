@@ -1,7 +1,8 @@
 import pandas as pd
 import os
+from sys import argv
 
-import sys
+title_dir = os.listdir('/home/pavel/.var/app/org.yuzu_emu.yuzu/data/yuzu/load/')
 
 def valid_cheat_folder_name(cheat_name):
     if ":" in cheat_name:
@@ -35,8 +36,6 @@ def valid_cheat_folder_name(cheat_name):
         cheat_name = cheat_name.replace("|","+")
 
     return cheat_name
-
-title_dir = os.listdir('/home/pavel/.var/app/org.yuzu_emu.yuzu/data/yuzu/load/')
 
 def add_cheats(titled):
 
@@ -79,10 +78,18 @@ def add_cheats(titled):
         print("No Game Found with this TITLE ID in the Database")
 
 def main():
-    nonlocal title_dir
-    for td in title_dir:
-        add_cheats(td)
+    import shutil
 
+    if len(argv) > 1:
+        for td in os.listdir('/home/pavel/.var/app/org.yuzu_emu.yuzu/data/yuzu/load/'):
+            for clear_dir in os.listdir('/home/pavel/.var/app/org.yuzu_emu.yuzu/data/yuzu/load/'+td):
+                shutil.rmtree('/home/pavel/.var/app/org.yuzu_emu.yuzu/data/yuzu/load/'+td+'/'+clear_dir)
 
-if __name__=='main':
+    else:
+        for td in title_dir:
+            add_cheats(td)
+
+    
+
+if __name__=='__main__':
     main()
